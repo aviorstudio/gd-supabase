@@ -14,6 +14,7 @@ Copy this directory into `addons/@aviorstudio_gd-supabase/` and enable the plugi
 
 - `JwtModule`: decode JWT payloads and check expiration timestamps.
 - `SessionStoreModule`: save/load/clear session payloads with legacy migration support.
+- `ClientIdModule`: cross-platform unique client ID retrieval with configurable web storage key.
 
 ## Status
 
