@@ -56,14 +56,14 @@ func load_session() -> Dictionary[String, Variant]:
 	if resolved_path != primary_path:
 		save(payload)
 		if FileAccess.file_exists(resolved_path):
-			DirAccess.remove_absolute(resolved_path)
+			_remove_file(resolved_path)
 	return payload
 
 ## Clears persisted session files for primary and legacy paths.
 func clear() -> void:
 	for candidate_path: String in _get_candidate_paths():
 		if FileAccess.file_exists(candidate_path):
-			DirAccess.remove_absolute(candidate_path)
+			_remove_file(candidate_path)
 
 ## Returns true when any known session file exists.
 func exists() -> bool:
@@ -90,3 +90,7 @@ func _resolve_existing_path() -> String:
 		if FileAccess.file_exists(candidate_path):
 			return candidate_path
 	return ""
+
+func _remove_file(path: String) -> void:
+	var absolute_path: String = ProjectSettings.globalize_path(path)
+	DirAccess.remove_absolute(absolute_path)
