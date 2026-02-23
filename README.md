@@ -16,9 +16,9 @@ Copy this directory into `addons/@aviorstudio_gd-supabase/` and enable the plugi
 - `SessionStoreModule`: save/load/clear session payloads with legacy migration support.
 - `ClientIdModule`: cross-platform unique client ID retrieval with configurable web storage key.
 
-## Status
+## Testing
 
-Scaffolded in Phase 3 with JWT module extraction. Session/client ID modules and tests are added in subsequent steps.
+`./tests/test.sh`
 
 ## License
 
