@@ -24,6 +24,12 @@ static func _get_web_client_id(config: ClientIdConfig) -> String:
 	var existing_value: String = str(JavaScriptBridge.eval("localStorage.getItem('%s')" % config.storage_key, true))
 	if existing_value != "null" and not existing_value.is_empty():
 		return existing_value
-	var new_id: String = config.prefix + str(Time.get_ticks_msec()) + "_" + str(randi())
+	var new_id: String = _generate_web_id(config.prefix)
 	JavaScriptBridge.eval("localStorage.setItem('%s', '%s')" % [config.storage_key, new_id], true)
 	return new_id
+
+static func _generate_web_id(prefix: String) -> String:
+	var uuid: String = str(JavaScriptBridge.eval("(typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : ''", true))
+	if uuid != "null" and not uuid.is_empty():
+		return prefix + uuid
+	return prefix + str(Time.get_ticks_msec()) + "_" + str(randi()) + "_" + str(randi())
