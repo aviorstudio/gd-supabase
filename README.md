@@ -10,7 +10,7 @@ This addon is intentionally limited to local auth/session helper primitives.
 `gdpm install @aviorstudio/gd-supabase`
 
 ### Manual
-Copy this directory into `addons/@aviorstudio_gd-supabase/` and enable the plugin.
+Copy `addon/` into `addons/@aviorstudio_gd-supabase/` and enable the plugin.
 
 ## API Reference
 

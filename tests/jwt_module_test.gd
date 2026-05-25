@@ -1,6 +1,6 @@
 extends SceneTree
 
-const JwtModule = preload("res://src/jwt_module.gd")
+const JwtModule = preload("res://addon/src/jwt_module.gd")
 
 func _init() -> void:
 	call_deferred("_run")

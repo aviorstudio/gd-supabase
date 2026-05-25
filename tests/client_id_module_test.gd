@@ -1,6 +1,6 @@
 extends SceneTree
 
-const ClientIdModule = preload("res://src/client_id_module.gd")
+const ClientIdModule = preload("res://addon/src/client_id_module.gd")
 
 func _init() -> void:
 	call_deferred("_run")
