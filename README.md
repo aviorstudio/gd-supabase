@@ -1,22 +1,18 @@
 # gd-supabase
 
-Game-agnostic Supabase auth/session primitives for Godot 4.
+Use Supabase-friendly session helpers in Godot 4.
 
-This addon is intentionally limited to local auth/session helper primitives.
+This addon gives you JWT decoding, local session storage, and stable client IDs. It does not force a specific auth UI or HTTP client.
 
 ## Installation
 
 ### Via gdpm
+
 `gdpm install @aviorstudio/gd-supabase`
 
 ### Manual
-Copy `addon/` into `addons/@aviorstudio_gd-supabase/` and enable the plugin.
 
-## API Reference
-
-- `JwtModule`: decode JWT payloads and check expiration timestamps.
-- `SessionStoreModule`: save/load/clear session payloads with legacy migration support.
-- `ClientIdModule`: cross-platform unique client ID retrieval with configurable web storage key.
+Copy `addon/` into `res://addons/@aviorstudio_gd-supabase/` and enable the plugin.
 
 ## Quick Start
 
@@ -25,19 +21,34 @@ const JwtModule = preload("res://addons/@aviorstudio_gd-supabase/src/jwt_module.
 const SessionStoreModule = preload("res://addons/@aviorstudio_gd-supabase/src/session_store_module.gd")
 
 var store := SessionStoreModule.new()
-store.save({"access_token": token})
+store.save({"access_token": token, "refresh_token": refresh_token})
+
 var session := store.load_session()
-var expired := JwtModule.is_expired(str(session.get("access_token", "")))
+var access_token := str(session.get("access_token", ""))
+
+if JwtModule.is_expired(access_token):
+	_refresh_session()
 ```
 
-## Scope Boundary
+## Client ID Example
 
-- In scope: JWT/session/client-id helpers.
-- Out of scope: full auth flow orchestration, route guards, and network request lifecycle policy.
+```gdscript
+const ClientIdModule = preload("res://addons/@aviorstudio_gd-supabase/src/client_id_module.gd")
 
-## Security Boundary
+var client_id := ClientIdModule.get_or_create_client_id()
+```
 
-`JwtModule` decodes JWT payloads but does not verify signatures. `SessionStoreModule` stores local JSON-like session payloads; games own refresh, revoke, encryption, and platform-specific credential policy.
+## What You Get
+
+- `JwtModule`: decode JWT payloads and check expiration timestamps.
+- `SessionStoreModule`: save, load, and clear local session dictionaries.
+- `ClientIdModule`: get or create a stable client ID across supported platforms.
+
+## Security Notes
+
+- `JwtModule` decodes JWT payloads but does not verify signatures.
+- `SessionStoreModule` stores local JSON-like session data.
+- Your game owns refresh, revoke, encryption, platform credential storage, and server trust decisions.
 
 ## Testing
 
