@@ -1,6 +1,6 @@
 extends SceneTree
 
-const SessionStoreModule = preload("res://src/session_store_module.gd")
+const SessionStoreModule = preload("res://addon/src/session_store_module.gd")
 
 func _init() -> void:
 	call_deferred("_run")
