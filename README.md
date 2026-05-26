@@ -6,9 +6,9 @@ This addon gives you JWT decoding, local session storage, and stable client IDs.
 
 ## Installation
 
-### Via gdpm
+### Via gdam
 
-`gdpm install @aviorstudio/gd-supabase`
+`gdam install @aviorstudio/gd-supabase`
 
 ### Manual
 
