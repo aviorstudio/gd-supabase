@@ -9,7 +9,10 @@ func _run() -> void:
 	_test_save_and_load_roundtrip()
 	_test_legacy_migration()
 	_test_clear_removes_files()
-	quit()
+	print("TEST_REACHED:session_store_module_test:8")
+	quit(1 if _failures > 0 else 0)
+
+var _failures: int = 0
 
 func _test_save_and_load_roundtrip() -> void:
 	var store: SessionStoreModule = _build_store("roundtrip")
@@ -62,5 +65,5 @@ func _build_store(name: String) -> SessionStoreModule:
 func _assert(condition: bool, message: String) -> void:
 	if condition:
 		return
+	_failures += 1
 	push_error(message)
-	quit(1)

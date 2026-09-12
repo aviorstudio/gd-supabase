@@ -1,0 +1,9 @@
+plugin.cfg
+plugin.gd
+plugin.gd.uid
+src/client_id_module.gd
+src/client_id_module.gd.uid
+src/jwt_module.gd
+src/jwt_module.gd.uid
+src/session_store_module.gd
+src/session_store_module.gd.uid

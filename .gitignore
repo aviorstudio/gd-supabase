@@ -1,1 +1,6 @@
 .DS_Store
+.godot/
+.playwright-cli/
+dist/
+node_modules/
+__pycache__/
