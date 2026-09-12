@@ -71,7 +71,7 @@ Run locally with:
 ./tests/test.sh
 ```
 
-CI runs the same test script when available.
+**Correction ([fieldsofrevik#155](https://github.com/aviorstudio/fieldsofrevik/issues/155)):** the earlier “when available” wording overstated a skippable gate. CI and release now require the same Godot 4.7.2 suite, negative/restored gate controls, a closed-manifest ZIP, installed-package editor lifecycle checks, and a packaged Web smoke test. Release uploads the exact tested ZIP plus its SHA-256 rather than rebuilding it.
 
 ## License
 

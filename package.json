@@ -1,0 +1,10 @@
+{
+  "name": "gd-supabase-gates",
+  "private": true,
+  "scripts": {
+    "test:web": "node tests/web_test.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
+  }
+}

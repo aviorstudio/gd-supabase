@@ -1,0 +1,21 @@
+config_version=5
+
+[application]
+config/name="GD Supabase Packaged Lifecycle"
+run/main_scene="res://main.tscn"
+
+[consumer]
+preserved_marker="consumer-owned"
+
+[display]
+window/size/viewport_width=800
+window/size/viewport_height=450
+window/size/window_width_override=800
+window/size/window_height_override=450
+
+[editor_plugins]
+enabled=PackedStringArray("res://addons/@aviorstudio_gd-supabase/plugin.cfg")
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
