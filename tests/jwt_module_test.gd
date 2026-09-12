@@ -8,7 +8,10 @@ func _init() -> void:
 func _run() -> void:
 	_test_decode_payload_extracts_claims()
 	_test_get_expiry_and_is_expired()
-	quit()
+	print("TEST_REACHED:jwt_module_test:7")
+	quit(1 if _failures > 0 else 0)
+
+var _failures: int = 0
 
 func _test_decode_payload_extracts_claims() -> void:
 	var token: String = _build_jwt({
@@ -47,5 +50,5 @@ func _to_base64url(raw: PackedByteArray) -> String:
 func _assert(condition: bool, message: String) -> void:
 	if condition:
 		return
+	_failures += 1
 	push_error(message)
-	quit(1)

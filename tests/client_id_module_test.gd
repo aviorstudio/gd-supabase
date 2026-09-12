@@ -7,7 +7,10 @@ func _init() -> void:
 
 func _run() -> void:
 	_test_native_client_id_path()
-	quit()
+	print("TEST_REACHED:client_id_module_test:3")
+	quit(1 if _failures > 0 else 0)
+
+var _failures: int = 0
 
 func _test_native_client_id_path() -> void:
 	if OS.has_feature("web"):
@@ -21,5 +24,5 @@ func _test_native_client_id_path() -> void:
 func _assert(condition: bool, message: String) -> void:
 	if condition:
 		return
+	_failures += 1
 	push_error(message)
-	quit(1)
