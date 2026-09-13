@@ -21,6 +21,13 @@ try {
   });
   await page.goto(`http://127.0.0.1:${port}/index.html`, { waitUntil: "domcontentloaded" });
   await reached;
+  const safeKeysReached = await page.evaluate(([clientKey, sessionKey]) => (
+    sessionStorage.getItem(clientKey)?.startsWith("web_") === true
+    && JSON.parse(sessionStorage.getItem(sessionKey) ?? "null")?.access_token === "web-test"
+  ), ["client'\nkey", "session'\nkey"]);
+  if (!safeKeysReached) {
+    throw new Error("safe quoted/newline sessionStorage keys were not reached");
+  }
   await mkdir(new URL("../dist/", import.meta.url), { recursive: true });
   await page.screenshot({ path: new URL("../dist/web-evidence.png", import.meta.url).pathname });
   console.log("WEB_TEST_REACHED:packaged-addon-smoke");
