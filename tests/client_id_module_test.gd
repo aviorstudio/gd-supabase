@@ -7,7 +7,7 @@ func _init() -> void:
 
 func _run() -> void:
 	_test_native_client_id_path()
-	print("TEST_REACHED:client_id_module_test:3")
+	print("TEST_REACHED:client_id_module_test:4")
 	quit(1 if _failures > 0 else 0)
 
 var _failures: int = 0
@@ -20,6 +20,7 @@ func _test_native_client_id_path() -> void:
 	_assert(not id_a.is_empty(), "native client id should not be empty")
 	_assert(id_a == id_b, "native client id should be stable across calls")
 	_assert(id_a == OS.get_unique_id(), "native client id should use OS unique id")
+	_assert(not ClientIdModule.new().has_method("authorize"), "client IDs must expose no authorization API")
 
 func _assert(condition: bool, message: String) -> void:
 	if condition:
