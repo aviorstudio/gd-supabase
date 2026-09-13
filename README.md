@@ -2,7 +2,7 @@
 
 Use Supabase-friendly session helpers in Godot 4.
 
-This addon gives you JWT decoding, local session storage, and stable client IDs. It does not force a specific auth UI or HTTP client.
+This addon gives you explicitly unverified JWT metadata, adapter-based session storage, and non-authentication client IDs. It does not force a specific auth UI or HTTP client.
 
 ## Installation
 
@@ -21,34 +21,46 @@ const JwtModule = preload("res://addons/@aviorstudio_gd-supabase/src/jwt_module.
 const SessionStoreModule = preload("res://addons/@aviorstudio_gd-supabase/src/session_store_module.gd")
 
 var store := SessionStoreModule.new()
-store.save({"access_token": token, "refresh_token": refresh_token})
+var saved: SessionStoreModule.OperationResult = store.save({
+	"access_token": token,
+	"refresh_token": refresh_token,
+})
+if not saved.is_success():
+	push_error(saved.error)
 
-var session := store.load_session()
-var access_token := str(session.get("access_token", ""))
+var loaded: SessionStoreModule.LoadResult = store.load_session()
+var access_token := str(loaded.data.get("access_token", ""))
 
-if JwtModule.is_expired(access_token):
+var expiry: JwtModule.ExpiryResult = JwtModule.get_expiry_hint(access_token)
+if expiry.status == JwtModule.ExpiryStatus.EXPIRED:
 	_refresh_session()
 ```
+
+The default session store is memory-only and reports `NON_PERSISTENT`. For native persistence, inject a `SessionStoreModule.NativeCredentialAdapter` implemented with the target OS credential facility and select `NATIVE_CREDENTIAL`. For Web persistence, explicitly select `WEB_SESSION_STORAGE`; browser `sessionStorage` is script-accessible and is not a secure keystore.
 
 ## Client ID Example
 
 ```gdscript
 const ClientIdModule = preload("res://addons/@aviorstudio_gd-supabase/src/client_id_module.gd")
 
-var client_id := ClientIdModule.get_or_create_client_id()
+var client_id := ClientIdModule.get_client_id()
 ```
+
+**Correction ([fieldsofrevik#155](https://github.com/aviorstudio/fieldsofrevik/issues/155)):** the earlier example called nonexistent `get_or_create_client_id()`. The compiling API is `get_client_id()`. Native uses `OS.get_unique_id()`; Web defaults to process memory and allows explicit `sessionStorage` opt-in through `ClientIdConfig.web_storage_mode`.
 
 ## What You Get
 
-- `JwtModule`: decode JWT payloads and check expiration timestamps.
-- `SessionStoreModule`: save, load, and clear local session dictionaries.
-- `ClientIdModule`: get or create a stable client ID across supported platforms.
+- `JwtModule`: structurally inspect unverified JWT metadata and return typed expiry hints.
+- `SessionStoreModule`: typed memory, injected native credential, and explicit Web tab storage.
+- `ClientIdModule`: non-authentication client IDs with explicit Web persistence.
 
 ## Security Notes
 
-- `JwtModule` decodes JWT payloads but does not verify signatures.
-- `SessionStoreModule` stores local JSON-like session data.
-- Your game owns refresh, revoke, encryption, platform credential storage, and server trust decisions.
+- `JwtModule` does not verify signatures. Its claims and expiry are untrusted scheduling/display hints and must never establish identity or authorization.
+- Native persistence exists only through a caller-injected OS credential adapter. There is no plaintext or bundled-key encryption fallback.
+- Web defaults to memory. Explicit `sessionStorage` is accessible to page scripts and is not a secure keystore; sessions do not use `localStorage`.
+- Session payloads are lossless JSON objects bounded to 1 MiB; JWT inputs are bounded to 64 KiB. The caller owns refresh, revoke, server verification, and trust decisions.
+- Legacy plaintext migration is explicit, requires destination write/readback success, and never deletes the source in this release.
 
 ## Repository Layout
 
