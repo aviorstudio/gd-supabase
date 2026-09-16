@@ -19,6 +19,17 @@ description: >
 runs:
   using: composite
   steps:
+    - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+      with:
+        node-version: '24'
+        cache: npm
+
+    - name: Publication contract (no credentials)
+      shell: bash
+      run: |
+        npm ci
+        npm run test:publish
+
     # The addon's own file manifest. Listed rather than globbed: a file dropped
     # in a refactor is exactly what this catches, and a glob would happily match
     # whatever was left.
@@ -54,14 +65,8 @@ runs:
       shell: bash
       run: ./tests/package_controls.sh dist/@aviorstudio_gd-supabase.zip
 
-    - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
-      with:
-        node-version: '24'
-        cache: npm
-
     - name: Web packaged-path test
       shell: bash
       run: |
-        npm ci
         npx playwright install --with-deps chromium
         npm run test:web
