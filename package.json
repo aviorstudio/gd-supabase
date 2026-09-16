@@ -2,9 +2,11 @@
   "name": "gd-supabase-gates",
   "private": true,
   "scripts": {
+    "test:publish": "node scripts/check_publish_contract.mjs && node --test tests/publish_contract_test.mjs",
     "test:web": "node tests/web_test.mjs"
   },
   "devDependencies": {
-    "playwright": "1.63.0"
+    "playwright": "1.63.0",
+    "yaml": "2.9.1"
   }
 }
