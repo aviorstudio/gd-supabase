@@ -88,3 +88,15 @@ Run locally with:
 ## License
 
 MIT
+
+### Publication contract gate
+
+`npm ci && npm run test:publish` checks the release workflow against immutable
+GDAM action metadata, including failing/restored unsupported-input controls and
+an offline CLI-stub publication test. CI and release run this before the existing
+package/native/Web gates and before the publication job receives registry
+credentials. `publish.version` is not an action input: registry release identity
+comes from the exact `tag`. The valid `install.version` is pinned to GDAM v0.0.8,
+and the Linux executable checksum is verified before publishing. The ZIP asset
+is explicit because releases also include checksum and browser evidence assets.
+Upgrading either contract requires updating its versioned fixtures and pins.
