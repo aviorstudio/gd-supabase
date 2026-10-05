@@ -1,3 +1,5 @@
+<!-- Generated from private documentation source. Do not edit directly. Source SHA256: 9856d8da72c08cde4eaffd9c5013863a506f4da0645b2214b0fc8871c360e3a7 -->
+
 # gd-supabase
 
 Use Supabase-friendly session helpers in Godot 4.
@@ -46,7 +48,7 @@ const ClientIdModule = preload("res://addons/@aviorstudio_gd-supabase/src/client
 var client_id := ClientIdModule.get_client_id()
 ```
 
-**Correction ([fieldsofrevik#155](https://github.com/aviorstudio/fieldsofrevik/issues/155)):** the earlier example called nonexistent `get_or_create_client_id()`. The compiling API is `get_client_id()`. Native uses `OS.get_unique_id()`; Web defaults to process memory and allows explicit `sessionStorage` opt-in through `ClientIdConfig.web_storage_mode`.
+**Usage note:** the earlier example called nonexistent `get_or_create_client_id()`. The compiling API is `get_client_id()`. Native uses `OS.get_unique_id()`; Web defaults to process memory and allows explicit `sessionStorage` opt-in through `ClientIdConfig.web_storage_mode`.
 
 ## What You Get
 
@@ -62,41 +64,7 @@ var client_id := ClientIdModule.get_client_id()
 - Session payloads are lossless JSON objects bounded to 1 MiB; JWT inputs are bounded to 64 KiB. The caller owns refresh, revoke, server verification, and trust decisions.
 - Legacy plaintext migration is explicit, requires destination write/readback success, and never deletes the source in this release.
 
-## Repository Layout
-
-- `addon/`: Godot plugin source packaged for GDAM and manual installation.
-- `addon/plugin.cfg`: plugin name, version, description, and entry script.
-- `addon/src/`: reusable GDScript modules.
-- `tests/`: Godot test project/scripts for addon behavior.
-- `.github/workflows/ci.yml`: validates package shape and runs tests.
-- `.github/workflows/release.yml`: creates GitHub release ZIPs and publishes to GDAM.
-
-## Versioning And Releases
-
-The version in `addon/plugin.cfg` is the addon package version. Releases are created from `main` with the manual release workflow and plain semver tags like `v0.0.1`; the workflow verifies `plugin.cfg`, builds `@aviorstudio_gd-supabase.zip`, and publishes `@aviorstudio/gd-supabase` to GDAM.
-
-## Testing
-
-Run locally with:
-
-```sh
-./tests/test.sh
-```
-
-**Correction ([fieldsofrevik#155](https://github.com/aviorstudio/fieldsofrevik/issues/155)):** the earlier “when available” wording overstated a skippable gate. CI and release now require the same Godot 4.7.2 suite, negative/restored gate controls, a closed-manifest ZIP, installed-package editor lifecycle checks, and a packaged Web smoke test. Release uploads the exact tested ZIP plus its SHA-256 rather than rebuilding it.
 
 ## License
 
-MIT
-
-### Publication contract gate
-
-`npm ci && npm run test:publish` checks the release workflow against immutable
-GDAM action metadata, including failing/restored unsupported-input controls and
-an offline CLI-stub publication test. CI and release run this before the existing
-package/native/Web gates and before the publication job receives registry
-credentials. `publish.version` is not an action input: registry release identity
-comes from the exact `tag`. The valid `install.version` is pinned to GDAM v0.0.8,
-and the Linux executable checksum is verified before publishing. The ZIP asset
-is explicit because releases also include checksum and browser evidence assets.
-Upgrading either contract requires updating its versioned fixtures and pins.
+See `LICENSE`.
