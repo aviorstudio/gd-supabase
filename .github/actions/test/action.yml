@@ -21,25 +21,14 @@ runs:
   steps:
     - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
       with:
-        node-version: '24'
+        node-version: '24.18.1'
         cache: npm
 
-    - name: Publication contract (no credentials)
+    - name: Install locked browser dependencies
       shell: bash
       run: |
         npm ci
-        npm run test:publish
-
-    # The addon's own file manifest. Listed rather than globbed: a file dropped
-    # in a refactor is exactly what this catches, and a glob would happily match
-    # whatever was left.
-    - name: Validate addon package
-      shell: bash
-      run: |
-        set -euo pipefail
-        test -f addon/plugin.cfg
-        python3 scripts/package_addon.py build dist/@aviorstudio_gd-supabase.zip
-        python3 scripts/package_addon.py verify dist/@aviorstudio_gd-supabase.zip
+        npx --no-install playwright install --with-deps chromium
 
     # Godot comes from a LOCAL action, copied from the one castledrop and prizm
     # carry. The version used to be a download URL written into ci.yml -- the
@@ -51,22 +40,6 @@ runs:
         templates-sha256: 'f298490b8d44d934be425a5a65a51bf15f422428b229a06a6e11d9ffea248011'
         install-templates: 'true'
 
-    # No `if: hashFiles(...)` guard. This step used to skip itself when
-    # tests/test.sh was absent, which is indistinguishable from the script being
-    # renamed or deleted -- a skipped test is a green tick. This addon has a
-    # suite, so the step runs unconditionally and a missing script now fails.
-    - name: Godot tests
+    - name: Run addon profile gates
       shell: bash
-      run: |
-        ./tests/gate_controls.sh
-        ./tests/test.sh
-
-    - name: Packaged addon install and editor lifecycle
-      shell: bash
-      run: ./tests/package_controls.sh dist/@aviorstudio_gd-supabase.zip
-
-    - name: Web packaged-path test
-      shell: bash
-      run: |
-        npx playwright install --with-deps chromium
-        npm run test:web
+      run: make check
