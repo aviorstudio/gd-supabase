@@ -5,10 +5,10 @@ import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
 import { parse } from 'yaml';
 
-export const actionRef = 'd735444eb470194585def44521d5d91df2260e63';
-const fixtures = new URL('../tests/fixtures/gdam-actions/', import.meta.url);
+export const actionRef = '699727af05ff8da8f6816cc5c14a16b2b9470219';
+const fixtures = new URL('../tests/fixtures/gdam-actions/699727af05ff8da8f6816cc5c14a16b2b9470219/', import.meta.url);
 const hashes = {
-  'install/action.yml': '1db7bd742af61d8a5ddf6357a2c0f813af623df1dd8b46ed6b32d8f543480d32',
+  'install/action.yml': '29a9f5cbfbc572e0827a4d1347a06c369a9686c47c36f752ed70830e1913250c',
   'publish/action.yml': '7e7cc2cb3412950c3c5a8f9cfb5f146922a6040da58229ed86f45605700066a5',
   'publish/publish.sh': 'c51ed57c134491f2945eaafc321faa65a72b6267a73a2a56e18cca72c175a486',
 };
