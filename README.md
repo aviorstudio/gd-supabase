@@ -1,6 +1,13 @@
-<!-- Generated from private documentation source. Do not edit directly. Source SHA256: 9856d8da72c08cde4eaffd9c5013863a506f4da0645b2214b0fc8871c360e3a7 -->
+<!-- Generated from private documentation source. Do not edit directly. Source SHA256: 8cc585672583d3b5d89a84e280c5fcb0729c948696c1f74030c0b83636086cfb -->
 
 # gd-supabase
+
+> **Deprecated.** The session store, client ID and JWT helpers this addon
+> carried were a copy of a backend-neutral core that now lives in
+> [`@aviorstudio/gd-session`](https://github.com/aviorstudio/gd-session).
+> Nothing Supabase-specific remains here, so no further releases are planned:
+> install `gd-session` instead (`gdam add @aviorstudio/gd-session`). The
+> releases below stay published for projects that pin them.
 
 Use Supabase-friendly session helpers in Godot 4.
 
