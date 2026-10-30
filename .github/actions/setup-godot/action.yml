@@ -18,7 +18,7 @@ inputs:
 runs:
   using: composite
   steps:
-  - uses: nicodes/tools/godot-setup@cf0e560c9bbb888488191fcce03409b6c6fbdc28
+  - uses: nicodes/tools/godot-setup@71512a0717c76b18eee99fbecae3ac81def9a15c
     with:
       version: ${{ inputs.godot-version }}
       origin: godot
