@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
 import { parse } from 'yaml';
 
-export const actionRef = '6677226d9353df1d410f3e7f5075e13b3b7d5308';
+export const actionRef = '3a46007e296e60e15a4ad47727ad33046e52e6ea';
 const fixtures = new URL('../tests/fixtures/gdam-actions/6677226d9353df1d410f3e7f5075e13b3b7d5308/', import.meta.url);
 const hashes = {
   'publish/action.yml': '9b9de814668665eb77e34afab9929e9585b1f0047f9c31a8b05706447d27bd10',
