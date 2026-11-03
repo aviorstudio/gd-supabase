@@ -10,7 +10,7 @@ help:
 	@echo 'make install  Install checksum-pinned tooling and the caller-pinned Godot engine'
 	@echo 'make check    Run existing source, package, behavioral and editor-lifecycle gates'
 install:
-	mise trust .mise.toml
+	mise trust mise.toml
 	mise install
 	mise exec -- bash scripts/profile-install.sh
 check:
