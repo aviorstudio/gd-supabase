@@ -1,55 +1,32 @@
-name: CI
-
-# Every pull request and every merge to main: test, on one runner.
-#
-# There is no build. A Godot addon is GDScript in a directory -- what a release
-# ships is the same files, zipped -- so the only question is whether it is
-# correct, and that is Test's job.
-#
-# The push trigger is not redundant here: this repository has no CD, so nothing
-# else covers a merge to main.
-#
-# The steps are .github/actions/test, the same definition Release runs. There is
-# one of it, and it is the one guarding a publish to the GDAM registry.
-
-on:
+# Generated cookbook caller. Change recipe data and regenerate.
+name: Build & Test
+'on':
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
   push:
     branches: [main]
   workflow_dispatch:
-
-permissions:
-  contents: read
-
+    inputs:
+      source:
+        description: Exact source commit; defaults to this main revision
+        type: string
+        default: ''
+      tools:
+        description: Accepted cookbook commit; defaults to the pinned recipe
+        type: string
+        default: ''
+permissions: {}
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ci-${{ github.ref }}-${{ inputs.source || 'current' }}
   cancel-in-progress: true
-
 jobs:
-  ci:
-    runs-on: ubuntu-24.04
-    # Bounded, so a step that hangs fails here rather than sitting until the
-    # runner's own timeout hours later.
-    timeout-minutes: 20
-    steps:
-      # Third-party actions are pinned by SHA, with the tag in a trailing
-      # comment so the version is still readable. A tag is a moving reference:
-      # whoever can move it can run code in this job.
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
-        with:
-          # pull_request defaults to the synthetic merge ref. Gate the immutable
-          # source head itself so evidence and artifact identities are exact.
-          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
-
-      - name: Test
-        uses: ./.github/actions/test
-
-      - name: Preserve package evidence
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
-        with:
-          name: gate-evidence-${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
-          path: |
-            dist/@aviorstudio_gd-supabase.zip
-            dist/installed-tree.sha256
-            dist/web-evidence.png
-          if-no-files-found: error
+  validate:
+    uses: nicodes/tools/.github/workflows/cookbook-ci.yml@ade449c3150fd5a9c86fb6ec21d8ae905d6a2754
+    permissions:
+      contents: read
+    with:
+      tools-ref: ${{ inputs.tools || 'ade449c3150fd5a9c86fb6ec21d8ae905d6a2754' }}
+      source: ${{ inputs.source || github.sha }}
+      merge-gate: ${{ vars.COOKBOOK_REQUEST_MERGE == 'enabled' }}
+      runner: ubuntu-24.04
+      timeout-minutes: 20

@@ -1,0 +1,70 @@
+version = 1
+recipe = "godot-addon"
+
+[package]
+source = "addon"
+manifest = "package.files"
+archive = "dist/@aviorstudio_gd-supabase.zip"
+
+[lint]
+required_paths = ["addon/plugin.cfg", "package.files"]
+
+[format]
+paths = ["addon", "tests/client_id_module_test.gd", "tests/jwt_module_test.gd", "tests/session_store_module_test.gd"]
+
+[clean]
+paths = ["dist", ".artifacts/build", ".artifacts/godot", ".artifacts/godot-data", ".artifacts/godot-config", ".artifacts/tmp", ".artifacts/playwright", ".godot", "node_modules"]
+
+[node]
+packages = ["."]
+
+[components.browser]
+package = "."
+
+[[components.fixture_exports]]
+project = "tests/package_fixture"
+preset = "Web"
+output = "dist/web/index.html"
+timeout = 60
+required_outputs = ["index.html", "index.wasm"]
+install_archive = "addons/@aviorstudio_gd-supabase"
+
+[artifacts]
+evidence_paths = ["dist/installed-tree.sha256", "dist/web-evidence.png"]
+
+[[tests.unit]]
+runner = "bash"
+path = "tests/gate_controls.sh"
+timeout = 90
+
+[[tests.unit]]
+runner = "bash"
+path = "tests/test.sh"
+timeout = 300
+
+[[tests.unit]]
+runner = "node-test"
+path = "tests/publish_contract_test.mjs"
+timeout = 30
+
+[[tests.integration]]
+runner = "bash"
+path = "tests/package_controls.sh"
+args = ["dist/@aviorstudio_gd-supabase.zip"]
+timeout = 420
+
+[[tests.e2e]]
+runner = "node"
+path = "tests/web_test.mjs"
+timeout = 90
+
+[publication]
+tag_prefix = "v"
+initial = "first"
+validation_timeout = 30
+publish_timeout = 10
+environment = "release"
+evidence_assets = ["dist/installed-tree.sha256", "dist/web-evidence.png"]
+
+[ci]
+timeout_minutes = 20

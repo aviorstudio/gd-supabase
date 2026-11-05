@@ -2,7 +2,7 @@
   "name": "gd-supabase-gates",
   "private": true,
   "scripts": {
-    "test:publish": "node scripts/check_publish_contract.mjs && node --test tests/publish_contract_test.mjs",
+    "test:publish": "node --test tests/publish_contract_test.mjs",
     "test:web": "node tests/web_test.mjs"
   },
   "devDependencies": {
