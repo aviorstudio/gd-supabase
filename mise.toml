@@ -1,4 +1,12 @@
 [tools]
 python = "3.13.11"
+actionlint = "1.7.12"
+"pipx:gdtoolkit" = "4.5.0"
 node = "24.18.1"
-"http:cicd-engineering" = { version = "0.13.0", url = "https://github.com/nicodes/tools/releases/download/v{{ version }}/cicd-engineering-v{{ version }}.tar.gz", checksum = "sha256:4c6014b153ce0d4c3754fbe02f3574989a67e4886a45e254262843a314018d8c" }
+
+[env]
+GODOT_VERSION = "4.7.2"
+GODOT_EXPECTED_VERSION = "4.7.2.stable.official.ed1daf0bf"
+GODOT_BINARY_CHECKSUM = "sha256:cadd3204e728a35d3f13adb7fd0d7902636b79f6b95c40c265eb73b6c35329e4"
+GODOT_TEMPLATES_CHECKSUM = "sha256:f298490b8d44d934be425a5a65a51bf15f422428b229a06a6e11d9ffea248011"
+PYTHONDONTWRITEBYTECODE = "1"

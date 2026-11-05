@@ -1,4 +1,4 @@
-<!-- Generated from private documentation source. Do not edit directly. Source SHA256: 8cc585672583d3b5d89a84e280c5fcb0729c948696c1f74030c0b83636086cfb -->
+<!-- Generated from private documentation source. Do not edit directly. Source SHA256: 8d7e743abb3b967fb1e34a632b066ff5c0c470886c77431836adbebc4f37568b -->
 
 # gd-supabase
 
@@ -75,3 +75,15 @@ var client_id := ClientIdModule.get_client_id()
 ## License
 
 See `LICENSE`.
+
+## Contributor commands
+
+Install [mise](https://mise.jdx.dev/), then run:
+
+```sh
+make setup
+make build
+make test
+```
+
+`make help` lists the implemented commands offline. Mise pins SDK versions; the generated Makefile pins the shared cookbook. `make build` packages and verifies outputs, and `make test` runs the declared checks without rebuilding. Run `make build` again after changing source before packaged integration or browser tests. `make fmt` formats addon and test source; intentional invalid fixtures remain unchanged. `make clean` removes declared generated outputs.

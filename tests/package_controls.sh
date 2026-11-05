@@ -14,7 +14,7 @@ GODOT=${GODOT_BIN:-godot}
 LOG_DIR=$(mktemp -d)
 trap 'rm -rf "$LOG_DIR"' EXIT
 
-python3 "$ROOT_DIR/scripts/package_addon.py" verify "$ARCHIVE"
+python3 "${TOOLS_ROOT:?Pinned cookbook required}/helpers/addon-package.py" verify --manifest "$ROOT_DIR/package.files" --archive "$ARCHIVE"
 rm -rf "$FIXTURE"
 mkdir -p "$ADDON_DIR"
 cp "$ROOT_DIR/tests/package_fixture/"{main.gd,main.tscn,export_presets.cfg} "$FIXTURE/"
@@ -51,7 +51,5 @@ fi
 
 (cd "$ADDON_DIR" && find . -type f -print0 | LC_ALL=C sort -z | xargs -0 sha256sum) > "$ROOT_DIR/dist/installed-tree.files.sha256"
 sha256sum "$ROOT_DIR/dist/installed-tree.files.sha256" | cut -d' ' -f1 > "$ROOT_DIR/dist/installed-tree.sha256"
-mkdir -p "$ROOT_DIR/dist/web"
-run_godot web-export --headless --path "$FIXTURE" --export-release Web "$ROOT_DIR/dist/web/index.html"
 test -s "$ROOT_DIR/dist/web/index.html"
 echo "PACKAGE_LIFECYCLE_REACHED:enable-restart-smoke-disable-restart"
