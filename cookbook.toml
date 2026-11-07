@@ -2,8 +2,6 @@ version = 1
 recipe = "godot-addon"
 
 [package]
-source = "addon"
-manifest = "package.files"
 archive = "dist/@aviorstudio_gd-supabase.zip"
 
 [lint]
@@ -16,7 +14,7 @@ paths = ["addon", "tests/client_id_module_test.gd", "tests/jwt_module_test.gd", 
 paths = ["dist", ".artifacts/build", ".artifacts/godot", ".artifacts/godot-data", ".artifacts/godot-config", ".artifacts/tmp", ".artifacts/playwright", ".godot", "node_modules"]
 
 [node]
-packages = ["."]
+packages = [{directory = "."}]
 
 [components.browser]
 package = "."
