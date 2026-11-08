@@ -1,4 +1,4 @@
-<!-- Generated from private documentation source. Do not edit directly. Source SHA256: 8d7e743abb3b967fb1e34a632b066ff5c0c470886c77431836adbebc4f37568b -->
+<!-- Generated from private documentation source. Do not edit directly. Source SHA256: b7ce90c835863605ba43ba2346dfd0f0368419b2d669a82dd0d4dc00ab2658b5 -->
 
 # gd-supabase
 
@@ -81,9 +81,9 @@ See `LICENSE`.
 Install [mise](https://mise.jdx.dev/), then run:
 
 ```sh
-make setup
-make build
-make test
+mise run setup
+mise run build
+mise run test
 ```
 
-`make help` lists the implemented commands offline. Mise pins SDK versions; the generated Makefile pins the shared cookbook. `make build` packages and verifies outputs, and `make test` runs the declared checks without rebuilding. Run `make build` again after changing source before packaged integration or browser tests. `make fmt` formats addon and test source; intentional invalid fixtures remain unchanged. `make clean` removes declared generated outputs.
+`mise run help` lists the implemented commands offline. Mise pins SDK versions; the canonical generated Mise task block pins the shared cookbook. `mise run build` packages and verifies outputs, and `mise run test` runs the declared checks without rebuilding. Run `mise run build` again after changing source before packaged integration or browser tests. `mise run fmt` formats addon and test source; intentional invalid fixtures remain unchanged. `mise run clean` removes declared generated outputs.
