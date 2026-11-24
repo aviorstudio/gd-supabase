@@ -65,4 +65,5 @@ environment = "release"
 evidence_assets = ["dist/installed-tree.sha256", "dist/web-evidence.png"]
 
 [ci]
+single_job = true
 timeout_minutes = 20
